@@ -23,7 +23,11 @@ INSTALLED_APPS = [
     #--------added------------
     'rest_framework',
     'users',
-    'corsheaders'
+    'corsheaders',
+    # --------------
+    'graphene_django',
+    'channels',
+    'chat',
 ]
 
 
@@ -86,6 +90,26 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'auth.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
+}
+
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+
+ASGI_APPLICATION = 'auth.routing.application'
 
 
 # Internationalization
